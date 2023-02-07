@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     stages {
-        
+
         stage('checkout codes ') {
             steps {
-        git 'https://github.com/deopinc/react-redux-realworld-example-app'
+        git 'https://github.com/Savastyl/Multi-CI-CD.git'
 
             }
         }
