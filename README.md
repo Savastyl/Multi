@@ -1,41 +1,103 @@
-# ![React + Redux Example App](project-logo.png)
+# RealWorld Example Application - CI/CD Using Azure DevOps - Jenkins -GitHub Actions
+
+###### ![React + Redux Example App](project-logo.png)
 
 ![Alt text](Media/Screenshot%202023-02-05%20025857.png)
 
+## Introduction
+This repository contains the source code for a RealWorld example app that demonstrates how to set up a CI/CD pipeline using Azure DevOps. The app is a simple example of a RESTful API server built using Node.js and Express, and includes basic CRUD operations for articles and comments.
+
+
+## Prerequisites
+### For Azure DevOps
+Before you can set up the CI/CD pipeline, you'll need to have an Azure DevOps account. If you don't already have one, you can sign up for free here.
+
+### For Jenkins
+Before you can set up the CI/CD pipeline, you'll need to have a Jenkins server set up. If you don't already have one, you can download Jenkins here and follow the instructions for installation.
+
+## Setting up the CI/CD pipeline
+### For Azure DevOps
+
+To set up the CI/CD pipeline for this app, follow these steps:
+
+1. Clone this repository to your local machine.
+
+2. In Azure DevOps, create a new project and go to the Pipelines section.
+
+3. Select the "New pipeline" button and choose "GitHub" as the source. Follow the prompts to link your GitHub repository to Azure DevOps.
+
+4. Select the "Node.js" template and configure the pipeline as follows:
+
++ In the "Agent job" section, select "Node.js" as the agent pool.
++ In the "Variables" section, create the following variables:
+   + NODE_ENV: Set this to production.
+   + PORT: Set this to 3000.
++ In the "Stages" section, add the following steps:
+   + A "Build" step that runs the command npm install to install the dependencies.
+   + A "Test" step that runs the command npm test to run the tests.
+   + A "Deploy" step that runs the command npm start to start the app.
+Save the pipeline and run it to see if it works. If everything is set up correctly, the pipeline should run without errors and deploy the app to the specified environment.
+
+### For Jenkins
+
+To set up the CI/CD pipeline for this app, follow these steps:
+
+1. Clone this repository to your local machine.
+
+2. In Jenkins, go to the "New Item" page and create a new Freestyle project.
+
+3. In the "Source Code Management" section, select "Git" as the source and enter the URL of your GitHub repository.
+
+4. In the "Build Triggers" section, select "Poll SCM" and enter the following schedule: H/5 * * * * to build every 5 minutes.
+
+5. In the "Build Environment" section, select "Provide Node & npm bin/folder to PATH".
+
+6. In the "Build" section, add the following steps:
+
+   + Execute shell command: npm install
+   + Execute shell command: npm test
+7. In the "Post-build Actions" section, add the following step:
+   + Execute shell command: npm start
+8. Save the project and build it to see if it works. If everything is set up correctly, the pipeline should run without errors and deploy the app to the specified environment.
+
+### For GitHub Actions
+
+Setting up the CI/CD pipeline
+To set up the CI/CD pipeline for this app, follow these steps:
+
+1. Go to the "Actions" tab in your GitHub repository.
+
+2. Create a new workflow by clicking the "Set up a workflow yourself" button.
+
+3. In the workflow file, copy and paste the following YAML code:
+
+```
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+```
+4. Save the workflow file.
+
+5. Push a change to the repository to trigger the workflow and see if it runs successfully. If everything is set up correctly, the pipeline should run without errors and deploy the app to the specified environment.
+
+
+
 [![RealWorld Frontend](https://img.shields.io/badge/realworld-frontend-%23783578.svg)](http://realworld.io)
-
-> ### React + Redux codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld-example-apps) spec and API.
-
-<a href="https://stackblitz.com/edit/react-redux-realworld" target="_blank"><img width="187" src="https://github.com/gothinkster/realworld/blob/master/media/edit_on_blitz.png?raw=true" /></a>&nbsp;&nbsp;<a href="https://thinkster.io/tutorials/build-a-real-world-react-redux-application" target="_blank"><img width="384" src="https://raw.githubusercontent.com/gothinkster/realworld/master/media/learn-btn-hr.png" /></a>
-
-### [Demo](https://react-redux.realworld.io)&nbsp;&nbsp;&nbsp;&nbsp;[RealWorld](https://github.com/gothinkster/realworld)
-
-Originally created for this [GH issue](https://github.com/reactjs/redux/issues/1353). The codebase is now feature complete; please submit bug fixes via pull requests & feedback via issues.
-
-We also have notes in [**our wiki**](https://github.com/gothinkster/react-redux-realworld-example-app/wiki) about how the various patterns used in this codebase and how they work (thanks [@thejmazz](https://github.com/thejmazz)!)
-
-
-## Getting started
-
-You can view a live demo over at https://react-redux.realworld.io/
-
-To get the frontend running locally:
-
-- Clone this repo
-- `npm install` to install all req'd dependencies
-- `npm start` to start the local server (this project uses create-react-app)
-
-Local web server will use port 4100 instead of standard React's port 3000 to prevent conflicts with some backends like Node or Rails. You can configure port in scripts section of `package.json`: we use [cross-env](https://github.com/kentcdodds/cross-env) to set environment variable PORT for React scripts, this is Windows-compatible way of setting environment variables.
-
-Alternatively, you can add `.env` file in the root folder of project to set environment variables (use PORT to change webserver's port). This file will be ignored by git, so it is suitable for API keys and other sensitive stuff. Refer to [dotenv](https://github.com/motdotla/dotenv) and [React](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-development-environment-variables-in-env) documentation for more details. Also, please remove setting variable via script section of `package.json` - `dotenv` never override variables if they are already set.
-
-### Making requests to the backend API
-
-For convenience, we have a live API server running at https://conduit.productionready.io/api for the application to make requests against. You can view [the API spec here](https://github.com/GoThinkster/productionready/blob/master/api) which contains all routes & responses for the server.
-
-The source code for the backend server (available for Node, Rails and Django) can be found in the [main RealWorld repo](https://github.com/gothinkster/realworld).
-
-If you want to change the API URL to a local server, simply edit `src/agent.js` and change `API_ROOT` to the local server's URL (i.e. `http://localhost:3000/api`)
 
 
 ## Functionality overview
@@ -72,5 +134,10 @@ The example application is a social blogging site (i.e. a Medium.com clone) call
     - List of articles populated from author's created articles or author's favorited articles
 
 <br />
+
+## Conclusion
+By following these steps, you should have a working CI/CD pipeline for your RealWorld example app using Azure DevOps - Jenkins - GitHub Actions. This pipeline can be easily adapted to work with other Node.js applications and can be further customized to meet your specific needs.
+
+
 
 [![Brought to you by Thinkster](https://raw.githubusercontent.com/gothinkster/realworld/master/media/end.png)](https://thinkster.io)
