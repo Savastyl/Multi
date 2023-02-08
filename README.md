@@ -5,7 +5,7 @@
 ![Alt text](Media/Screenshot%202023-02-05%20025857.png)
 
 ## Introduction
-This repository contains the source code for a RealWorld example app that demonstrates how to set up a CI/CD pipeline using Azure DevOps. The app is a simple example of a RESTful API server built using Node.js and Express, and includes basic CRUD operations for articles and comments.
+This repository contains the source code for a RealWorld example app that demonstrates how to set up a CI/CD pipeline using Azure DevOps - Jenkins - GitHub Actions. The app is a simple example of a RESTful API server built using Node.js and Express, and includes basic CRUD operations for articles and comments.
 
 
 ## Prerequisites
