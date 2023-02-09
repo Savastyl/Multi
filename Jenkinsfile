@@ -5,7 +5,7 @@ pipeline {
 
         stage('checkout codes ') {
             steps {
-              sh 'git clone https://github.com/Savastyl/Multi-CI-CD.git'
+              sh 'git clone https://github.com/Savastyl/RealWorld-Application-CI-CD-Using-Azure-DevOps-Jenkins-GitHub-Actions.git'
 
             }
         }
