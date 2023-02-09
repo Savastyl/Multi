@@ -5,7 +5,7 @@ pipeline {
 
         stage('checkout codes ') {
             steps {
-        git 'https://github.com/Savastyl/Multi-CI-CD.git'
+              sh 'git clone https://github.com/Savastyl/Multi-CI-CD.git'
 
             }
         }
